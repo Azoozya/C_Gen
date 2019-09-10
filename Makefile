@@ -18,7 +18,12 @@ main.o: main.c header.h
 exec:
 	rm -rf *.o
 	rm -rf *.psh
+	./Final
 
+test:
+	rm -rf *.o
+	rm -rf *.psh
+	./Test
 purge:
 	rm -rf *.o
 	rm -rf *.psh
