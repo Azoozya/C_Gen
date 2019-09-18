@@ -3,11 +3,17 @@
 #include <math.h>
 #include <string.h>
 
-#define ERROR 63336
-#define NONE 36663
+#define ERROR 36
+#define NONE 63
 #define YES 333
 #define NO 4444
 #define MAX_TRY 100
+#define CHAR 255
+#define SHORT 65535
+#define INT 4294967295
+#define LONG 18446744073709551615
+#define FLOAT -4294967295
+#define DOUBLE -18446744073709551615
 
 /* master_pointer */
 typedef struct mp mp;
