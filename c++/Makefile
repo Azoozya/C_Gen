@@ -1,35 +1,28 @@
-all: Final Test
+all: Final Test Clear
 
 Final: main.o fonctions.o classes.o
-	g++ -g -pthread main.o fonctions.o -o Final
+	g++ -g main.o fonctions.o -o Final
 
 Test: tests.o fonctions.o classes.o
-	g++ -g -pthread tests.o fonctions.o -o Test
+	g++ -g tests.o fonctions.o -o Test
 
+Clear:
+	rm *.o
 # -----------------------------------------
 
 main.o: main.cpp header.hh classes.hh
-	g++ -g -c -pthread main.cpp
+	g++ -g -c  main.cpp
 
 fonctions.o: fonctions.cpp header.hh classes.hh
-	g++ -g -c -pthread fonctions.cpp
+	g++ -g -c  fonctions.cpp
 
 classes.o: classes.cpp classes.hh
-	g++ -g -c -pthread classes.cpp
+	g++ -g -c  classes.cpp
 
 tests.o: tests.cpp header.hh classes.hh
-	g++ -g -c -pthread tests.cpp
+	g++ -g -c tests.cpp
 
 # -----------------------------------------
 
 purge:
-	rm *.o
 	rm Final Test
-
-exec:
-	rm *.o
-	./Final
-
-test:
-	rm *.o
-	./Test
