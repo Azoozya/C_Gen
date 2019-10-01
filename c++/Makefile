@@ -1,8 +1,11 @@
-all: Final Test Clear
+
+OUTPUT = "Final"
 LS := $(shell ls | grep psh | wc -l)
 
-Final: main.o fonctions.o classes.o
-	g++ -g main.o fonctions.o -o Final
+all: $(OUTPUT) Test Clear
+
+$(OUTPUT): main.o fonctions.o classes.o
+	g++ -g main.o fonctions.o -o $(OUTPUT)
 
 Test: tests.o fonctions.o classes.o
 	g++ -g tests.o fonctions.o -o Test
@@ -31,4 +34,4 @@ tests.o: tests.cpp header.hh classes.hh
 # -----------------------------------------
 
 purge:
-	rm -rf Final Test
+	rm -rf $(OUTPUT) Test
