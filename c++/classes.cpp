@@ -16,7 +16,7 @@ char replace_me::m_getChar(void)
 
 void replace_me::m_afficher(void)
 {
-  std::cout << "Dans la struture on a actuellement : "<<a_var_1<<" et "<<a_var_2<<" et "<< a_var_3 <<" et "<< a_var_4 <<" et "<< a_var_5 << std::endl;
+  cout << "Dans la struture on a actuellement : "<<a_var_1<<" et "<<a_var_2<<" et "<< a_var_3 <<" et "<< a_var_4 <<" et "<< a_var_5 << endl;
   c_instance.m_afficher();
 }
 
@@ -32,5 +32,15 @@ replace_link::~replace_link()
 ///Méthodes
 void replace_link::m_afficher(void)
 {
-  std::cout << "\nEt dans la sous-structure on a : "<<a_name<<" et "<<a_firstname<<std::endl;
+  cout << "\nEt dans la sous-structure on a : "<<a_name<<" et "<<a_firstname<<endl;
+}
+
+string replace_link::m_getName(void)
+{
+  return a_name;
+}
+
+string replace_link::m_getFirstName(void)
+{
+  return a_firstname;
 }

@@ -8,6 +8,9 @@ class replace_link
     //Constructeurs
     replace_link();
     replace_link(std::string name,std::string firstname);
+    //Accesseur
+    std::string m_getName(void);
+    std::string m_getFirstName(void);
     //Affichage
     void m_afficher(void);
 
