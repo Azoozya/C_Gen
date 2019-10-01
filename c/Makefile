@@ -1,8 +1,11 @@
-all: Final Test Clear
+
+OUTPUT := "Final"
 LS := $(shell ls | grep psh | wc -l )
 
-Final: fonctions.o master_pointer.o main.o
-	gcc -lm -Wall -g -std=c99 fonctions.o master_pointer.o main.o -o Final
+all: $(OUTPUT) Test Clear
+
+$(OUTPUT): fonctions.o master_pointer.o main.o
+	gcc -lm -Wall -g -std=c99 fonctions.o master_pointer.o main.o -o $(OUTPUT)
 
 Test: fonctions.o master_pointer.o tests.o
 	gcc -lm -Wall -g -std=c99 fonctions.o master_pointer.o tests.o -o Test
@@ -27,4 +30,4 @@ main.o: main.c header.h
 	gcc -lm -Wall -g -std=c99 -c main.c -o main.o
 
 purge:
-	rm -rf Final Test
+	rm -rf $(OUTPUT) Test
