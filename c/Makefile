@@ -14,6 +14,7 @@ ifneq ($(LS),0)
 	rm *.psh
 endif
 	rm *.o
+
 # ---------------------------------------------------
 
 fonctions.o: fonctions.c header.h

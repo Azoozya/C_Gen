@@ -1,13 +1,22 @@
-all: Final Test Clear
 
-Final: main.o fonctions.o classes.o
-	g++ -g main.o fonctions.o -o Final
+OUTPUT = "Final"
+LS := $(shell ls | grep psh | wc -l)
+
+all: $(OUTPUT) Test Clear
+
+$(OUTPUT): main.o fonctions.o classes.o
+	g++ -g main.o fonctions.o -o $(OUTPUT)
 
 Test: tests.o fonctions.o classes.o
 	g++ -g tests.o fonctions.o -o Test
 
 Clear:
 	rm *.o
+ifeq ($(LS),0)
+	$(shell echo $("Lamantin"))
+else
+	rm *.psh
+endif
 # -----------------------------------------
 
 main.o: main.cpp header.hh classes.hh
@@ -25,4 +34,4 @@ tests.o: tests.cpp header.hh classes.hh
 # -----------------------------------------
 
 purge:
-	rm Final Test
+	rm -rf $(OUTPUT) Test
