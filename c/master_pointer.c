@@ -45,20 +45,21 @@ mp* reach_last_cell(mp* head)
   return to_return;
 }
 
-//Libère chacune des cellules d'une liste chaînée en partant de la tête, la structure doit avoir un pointeur next.
-void delete_down(mp* head)
+void delete_master(mp* head)
 {
-  mp* buffer;
-  int counter = 0;
-  do
+  mp* buffer = head->next;
+
+  int counter = 1;
+  free(head);
+  while (buffer != NULL)
     {
-      buffer = head->next;
-      if(head->pointer != head)
-        free(head->pointer);
-      free(head);
-      head = buffer;
-      counter += 2;
+      free(buffer->pointer);
+      if(counter > 1)
+        free(buffer->previous);
+      if(buffer->next == NULL)
+        free(buffer);
+      buffer = buffer->next;
+      counter++;
     }
-    while (head != NULL);
-  printf("Suppression de %d cellules effectué\n",counter);
+  printf("Suppression de %d cellule(s) effectué\n",counter);
 }

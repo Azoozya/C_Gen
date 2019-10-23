@@ -41,10 +41,58 @@ void delete_up_and_down(REPLACE_ME* cell)
   }
 }
 
+//Libère chacune des cellules d'une liste chaînée en partant de la tête, la structure doit avoir un pointeur next.
+void delete_down(REPLACE_ME* head)
+{
+  REPLACE_ME* buffer;
+  int counter = 0;
+  do
+    {
+      buffer = head->next;
+      free(head);
+      head = buffer;
+      counter += 1;
+    }
+    while (head != NULL);
+  printf("Suppression de %d cellule(s) effectué\n",counter);
+}
+
+//Vérifie que le pointeur est différent de NULL (return YES si != NULL)
 int test_succes(void* name)
 {
   if (name == NULL)
     return NO;
   else
     return YES;
+}
+
+//Permet une reallocation de mémoire pour un tableau d'un TYPE donné (voir les #define pour les type supportés)
+void* reallocate(void* pointer,char type,int new_size)
+{
+  void* to_return = NULL;
+  switch (type)
+  {
+    case CHAR:
+      to_return = realloc((char*)pointer,new_size*sizeof(char));
+      break;
+    case SHORT:
+      to_return = realloc((short*)pointer,new_size*sizeof(short));
+      break;
+    case INT:
+      to_return = realloc((int*)pointer,new_size*sizeof(int));
+      break;
+    case LONG:
+      to_return = realloc((long*)pointer,new_size*sizeof(long));
+      break;
+    case FLOAT:
+      to_return = realloc((float*)pointer,new_size*sizeof(float));
+      break;
+    case DOUBLE:
+      to_return = realloc((double*)pointer,new_size*sizeof(double));
+      break;
+    default:
+      printf("[Reallocate]Typer non reconnu.\n");
+      break;
+  }
+  return to_return;
 }

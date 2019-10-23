@@ -11,7 +11,7 @@ int main(int argc,char* argv[])
 	//		add_pointer_master((void*)lama ,master);
 	//} while(test_succes(CHANGE_ME) != YES);
 
-	delete_down(master);
-	
+	delete_master(master);
+
 	return 0;
 }

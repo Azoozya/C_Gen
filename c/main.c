@@ -11,6 +11,7 @@ int main(int argc,char* argv[])
 	// 	if (test_succes(CHANGE_ME) == YES)
 	// 		add_pointer_master((void*)CHANGE_ME ,master);
 	// } while(test_succes(CHANGE_ME) != YES);
-	delete_down(master);
+
+	delete_master(master);
 	return 0;
 }

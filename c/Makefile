@@ -1,5 +1,7 @@
 all: Final Test Clear
-LS = $(shell wc -l $$(grep psh $$(ls)))
+
+TARGET = Final Test
+LS = $(shell ls | grep *.psh | wc -c)
 
 Final: fonctions.o master_pointer.o main.o
 	gcc -lm -Wall -g -std=c99 fonctions.o master_pointer.o main.o -o Final
@@ -8,9 +10,10 @@ Test: fonctions.o master_pointer.o tests.o
 	gcc -lm -Wall -g -std=c99 fonctions.o master_pointer.o tests.o -o Test
 
 Clear:
+ifneq ($(LS),0)
+	rm *.psh
+endif
 	rm *.o
-	ifeq ($(LS),0)
-		rm *.psh
 # ---------------------------------------------------
 
 fonctions.o: fonctions.c header.h
@@ -23,4 +26,4 @@ main.o: main.c header.h
 	gcc -lm -Wall -g -std=c99 -c main.c -o main.o
 
 purge:
-	rm -rf Final Test
+	rm -rf $(TARGET)
