@@ -46,8 +46,9 @@ void delete_master(mp* head);
 /*------------------------------------------------------*/
 void delete_up_and_down(REPLACE_ME* cell);
 void delete_down(REPLACE_ME* head);
-void* reallocate(void* pointer,char type,int new_size);
+void* reallocate(mp* master,void* pointer,char type,int new_size);
 int test_succes(void* name);
+REPLACE_ME* struct_factory(mp* master,long nb_cell);
 /*------------------------------------------------------*/
 /* main (devrait être vide) */
 

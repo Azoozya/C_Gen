@@ -1,5 +1,32 @@
 #include "header.h"
 
+REPLACE_ME* struct_factory(mp* master,long nb_cell)
+{
+  REPLACE_ME* to_return = NULL;
+  REPLACE_ME* cell = NULL;
+  REPLACE_ME* previous = NULL;
+
+  for(long depth = 0 ; depth < nb_cell ; depth++)
+    {
+      do {
+      	 cell = malloc(sizeof(REPLACE_ME));
+      	 if (test_succes(cell) == YES)
+      		 add_pointer_master((void*)cell ,master);
+         } while(test_succes(cell) != YES);
+
+      cell->next = NULL;
+      cell->previous = previous;
+
+      if(depth == 0)
+          to_return = cell;
+      else
+          cell->previous->next = cell;
+      previous = cell;
+    }
+
+  return to_return;
+}
+
 //Libère chacune des cellules d'une liste chaînée de n'importe quel cellule , voir modèle de structure REPLACE_ME
 void delete_up_and_down(REPLACE_ME* cell)
 {
@@ -67,9 +94,10 @@ int test_succes(void* name)
 }
 
 //Permet une reallocation de mémoire pour un tableau d'un TYPE donné (voir les #define pour les type supportés)
-void* reallocate(void* pointer,char type,int new_size)
+void* reallocate(mp* master,void* pointer,char type,int new_size)
 {
   void* to_return = NULL;
+  mp* head = master;
   switch (type)
   {
     case CHAR:
@@ -94,5 +122,14 @@ void* reallocate(void* pointer,char type,int new_size)
       printf("[Reallocate]Typer non reconnu.\n");
       break;
   }
+
+  while(head != NULL && head->pointer != pointer)
+      head = head->next;
+
+  if(head != NULL)
+    {
+      head->pointer = to_return;
+      printf("Master Pointer mise à jour.\n");
+    }
   return to_return;
 }
