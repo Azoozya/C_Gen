@@ -5,8 +5,8 @@
 
 #define ERROR 36
 #define NONE 63
-#define YES 333
-#define NO 4444
+#define YES 52
+#define NO 0
 #define MAX_TRY 100
 #define CHAR 1
 #define SHORT 2
@@ -36,13 +36,13 @@ struct REPLACE_ME
 
 /* master_pointer */
 /*------------------------------------------------------*/
-mp* create_master_pointer(void);
-void* add_pointer_master(void* pointer,mp* master,char type,char size);
-mp* reach_last_cell(mp* head);
+mp* create_master_pointer(void); //isOk
+void* add_pointer_master(void* pointer,mp* master,char type,char size); //isOk
+mp* reach_last_cell(mp* head); //isOk
 void delete_master(mp* head);
-mp* locate_pointer(void* pointer,mp* head);
-void delete_pointer(void* pointer,mp* head);
-short verification(mp* master);
+mp* locate_pointer(void* pointer,mp* head); //isOk
+void delete_pointer(void* pointer,mp* head); //isOk
+char verification(mp* master); //isOk
 /*------------------------------------------------------*/
 
 
@@ -51,9 +51,15 @@ short verification(mp* master);
 void delete_up_and_down(REPLACE_ME* cell);
 void delete_down(REPLACE_ME* head);
 void* reallocate(mp* master,void* pointer,char type,int new_size);
-int test_succes(void* name);
+int test_success(void* name);
 REPLACE_ME* struct_factory(mp* master,long nb_cell);
 /*------------------------------------------------------*/
 /* main (devrait être vide) */
 
 /* test */
+void test_create_master(void);
+void test_add_pointer_master(void);
+void test_reach_last_cell(void);
+void test_locate_pointer(void);
+void test_delete_pointer(void);
+void test_verification(void);

@@ -80,7 +80,7 @@ void delete_down(REPLACE_ME* head)
 }
 
 //Vérifie que le pointeur est différent de NULL (return YES si != NULL)
-int test_succes(void* name)
+int test_success(void* name)
 {
   if (name == NULL)
     return NO;
@@ -97,6 +97,54 @@ void* reallocate(mp* master,void* pointer,char type,int new_size)
   {
     case CHAR:
       to_return = realloc((char*)pointer,new_size*sizeof(char));
+      free(pointer);
+      break;
+    case SHORT:
+      to_return = realloc((short*)pointer,new_size*sizeof(short));
+      free(pointer);
+      break;
+    case INT:
+      to_return = realloc((int*)pointer,new_size*sizeof(int));
+      free(pointer);
+      break;
+    case LONG:
+      to_return = realloc((long*)pointer,new_size*sizeof(long));
+      free(pointer);
+      break;
+    case FLOAT:
+      to_return = realloc((float*)pointer,new_size*sizeof(float));
+      free(pointer);
+      break;
+    case DOUBLE:
+      to_return = realloc((double*)pointer,new_size*sizeof(double));
+      free(pointer);
+      break;
+    default:
+      printf("[Reallocate]Typer non reconnu.\n");
+      break;
+
+  }
+
+  while(head != NULL && head->pointer != pointer)
+      head = head->next;
+
+  if(head != NULL)
+    {
+      head->pointer = to_return;
+      printf("Master Pointer mise à jour.\n");
+    }
+  return to_return;
+}
+
+void* reallocate(mp* master,void* pointer,char type,int new_size,int old_size)
+{
+  void* to_return = NULL;
+  mp* head = master;
+  switch (type)
+  {
+    case CHAR:
+      to_return = realloc((char*)pointer,new_size*sizeof(char));
+
       break;
     case SHORT:
       to_return = realloc((short*)pointer,new_size*sizeof(short));

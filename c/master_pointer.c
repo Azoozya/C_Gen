@@ -5,7 +5,7 @@ mp* create_master_pointer(void)
   mp* to_return;
   do {
      to_return = malloc(sizeof(mp));
-  } while(test_succes(to_return) != YES);
+  } while(!test_success(to_return));
 
   to_return->next = NULL;
   to_return->previous = NULL;
@@ -20,7 +20,7 @@ void* add_pointer_master(void* pointer,mp* master,char type,char size)
   do {
      buffer->next = malloc(sizeof(mp));
      counter++;
-  } while(test_succes(buffer->next) != YES && counter < MAX_TRY);
+  } while(!test_success(buffer->next) && counter < MAX_TRY);
 
   if (counter  == 100 || buffer->next == NULL)
     {
@@ -30,14 +30,14 @@ void* add_pointer_master(void* pointer,mp* master,char type,char size)
   else
     {
       buffer->next->previous = buffer;
-      master->pointer = buffer;
+      master->pointer = (void*)(buffer->next);
       buffer->next->next = NULL;
       if (type != STRUCTURE)
-          do { pointer = reallocate(master,pointer,type,size); } while(test_succes(pointer) != YES);
+          do { pointer = reallocate(master,pointer,type,size); } while(!test_success(pointer));
       else
-          do { pointer = malloc(size); } while(test_succes(pointer) != YES);
-      buffer->next->pointer = pointer;
+          do { pointer = malloc(size); } while(!test_success(pointer));
 
+      buffer->next->pointer = pointer;
       return pointer;
     }
 }
@@ -74,19 +74,19 @@ void delete_master(mp* head)
 mp* locate_pointer(void* pointer,mp* head)
 {
     mp* to_return = NULL;
-    if(test_succes(pointer) == NO)
+    if(!test_success(pointer))
         printf("Pointeur sur NULL\n");
     else
         {
             mp* buffer = head;
             mp* last = reach_last_cell(head);
-         while(buffer != last && test_succes(to_return) == NO)
+         while(buffer != last && !test_success(to_return))
              {
                  if(buffer->pointer == pointer)
                     to_return = buffer;
                  buffer = buffer->next;
              }
-         if(buffer == last && test_succes(to_return) == NO && buffer->pointer == pointer)
+         if(buffer == last && !test_success(to_return) && buffer->pointer == pointer)
               to_return = buffer;
         }
     return to_return;
@@ -95,34 +95,39 @@ mp* locate_pointer(void* pointer,mp* head)
 void delete_pointer(void* pointer,mp* head)
 {
     mp* cell = locate_pointer(pointer,head);
-    if( test_succes(cell) == NO)
+    if( !test_success(cell))
       printf("%p ne fait pas parti de MP\n",pointer);
     else
       {
         if(pointer != (void*)head)
         {
             cell->previous->next = cell->next;
-            cell->next->previous = cell->previous;
+
+            if(cell != head->pointer)
+              cell->next->previous = cell->previous;
+            else
+              head->pointer = cell->previous;
+
             free(cell->pointer);
             free(cell);
         }
       }
 }
 
-short verification(mp* master)
+char verification(mp* master)
 {
   mp* buffer = master;
-  while (buffer != master->pointer && test_succes(buffer) != YES)
+  while (buffer != master->pointer && !test_success(buffer))
     {
       buffer = buffer->next;
     }
-  if (test_succes(buffer) == YES)
+  if (test_success(buffer))
     {
-      while (buffer != master && test_succes(buffer) != YES)
+      while (buffer != master && !test_success(buffer))
         {
           buffer = buffer->previous;
         }
-      if(test_succes(buffer) != YES)
+      if(!test_success(buffer))
         {
           printf("Master pointer rompue (Retour)\n");
           return NO;
