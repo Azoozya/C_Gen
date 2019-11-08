@@ -14,6 +14,7 @@
 #define LONG 8
 #define FLOAT 5
 #define DOUBLE 9
+#define STRUCTURE 10
 
 /* master_pointer */
 typedef struct mp mp;
@@ -36,9 +37,12 @@ struct REPLACE_ME
 /* master_pointer */
 /*------------------------------------------------------*/
 mp* create_master_pointer(void);
-int add_pointer_master(void* pointer,mp* master);
+void* add_pointer_master(void* pointer,mp* master,char type,char size);
 mp* reach_last_cell(mp* head);
 void delete_master(mp* head);
+mp* locate_pointer(void* pointer,mp* head);
+void delete_pointer(void* pointer,mp* head);
+short verification(mp* master);
 /*------------------------------------------------------*/
 
 

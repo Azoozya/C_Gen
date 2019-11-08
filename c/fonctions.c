@@ -8,12 +8,7 @@ REPLACE_ME* struct_factory(mp* master,long nb_cell)
 
   for(long depth = 0 ; depth < nb_cell ; depth++)
     {
-      do {
-      	 cell = malloc(sizeof(REPLACE_ME));
-      	 if (test_succes(cell) == YES)
-      		 add_pointer_master((void*)cell ,master);
-         } while(test_succes(cell) != YES);
-
+    	cell = (REPLACE_ME*)add_pointer_master((void*)cell ,master,STRUCTURE,0);
       cell->next = NULL;
       cell->previous = previous;
 

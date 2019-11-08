@@ -6,13 +6,14 @@ mp* create_master_pointer(void)
   do {
      to_return = malloc(sizeof(mp));
   } while(test_succes(to_return) != YES);
+
   to_return->next = NULL;
   to_return->previous = NULL;
   to_return->pointer = to_return;
   return to_return;
 }
 
-int add_pointer_master(void* pointer,mp* master)
+void* add_pointer_master(void* pointer,mp* master,char type,char size)
 {
   mp* buffer = reach_last_cell(master);
   int counter = 0;
@@ -23,15 +24,21 @@ int add_pointer_master(void* pointer,mp* master)
 
   if (counter  == 100 || buffer->next == NULL)
     {
-      printf("Ajout du pointeur impossible.\n");
-      return NO;
+      printf("Impossible d'ajouter une cellule au MP.\n");
+      return NULL;
     }
   else
     {
       buffer->next->previous = buffer;
+      master->pointer = buffer;
       buffer->next->next = NULL;
+      if (type != STRUCTURE)
+          do { pointer = reallocate(master,pointer,type,size); } while(test_succes(pointer) != YES);
+      else
+          do { pointer = malloc(size); } while(test_succes(pointer) != YES);
       buffer->next->pointer = pointer;
-      return YES;
+
+      return pointer;
     }
 }
 
@@ -62,4 +69,70 @@ void delete_master(mp* head)
       counter++;
     }
   printf("Suppression de %d cellule(s) effectué\n",counter);
+}
+
+mp* locate_pointer(void* pointer,mp* head)
+{
+    mp* to_return = NULL;
+    if(test_succes(pointer) == NO)
+        printf("Pointeur sur NULL\n");
+    else
+        {
+            mp* buffer = head;
+            mp* last = reach_last_cell(head);
+         while(buffer != last && test_succes(to_return) == NO)
+             {
+                 if(buffer->pointer == pointer)
+                    to_return = buffer;
+                 buffer = buffer->next;
+             }
+         if(buffer == last && test_succes(to_return) == NO && buffer->pointer == pointer)
+              to_return = buffer;
+        }
+    return to_return;
+}
+
+void delete_pointer(void* pointer,mp* head)
+{
+    mp* cell = locate_pointer(pointer,head);
+    if( test_succes(cell) == NO)
+      printf("%p ne fait pas parti de MP\n",pointer);
+    else
+      {
+        if(pointer != (void*)head)
+        {
+            cell->previous->next = cell->next;
+            cell->next->previous = cell->previous;
+            free(cell->pointer);
+            free(cell);
+        }
+      }
+}
+
+short verification(mp* master)
+{
+  mp* buffer = master;
+  while (buffer != master->pointer && test_succes(buffer) != YES)
+    {
+      buffer = buffer->next;
+    }
+  if (test_succes(buffer) == YES)
+    {
+      while (buffer != master && test_succes(buffer) != YES)
+        {
+          buffer = buffer->previous;
+        }
+      if(test_succes(buffer) != YES)
+        {
+          printf("Master pointer rompue (Retour)\n");
+          return NO;
+        }
+      else
+        return YES;
+    }
+  else
+    {
+      printf("Master pointer rompue (Aller) : %p %p\n",buffer,master);
+      return NO;
+    }
 }
